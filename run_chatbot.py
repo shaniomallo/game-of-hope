@@ -1,4 +1,4 @@
-# Import your chatbot class here
+from chatbot_base import ChatbotBase
 
 
 if __name__ == "__main__":
