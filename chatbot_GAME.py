@@ -5,12 +5,63 @@ user_name = input("Enter your name to start the game  ")
 print(f"Hello {user_name}. Welcome to The Game of Hope. You open your eyes to a soft, golden glow drifting through a canopy of ancient trees. The air is cool and sweet, carrying the scent of moss, wildflowers, and something faintly magical. Dewdrops cling to giant fern leaves, shimmering with iridescent colors. You breathe the fresh air and take in the peaceful sounds of nature.")
 #print("Take a moment to check in. Rate your mood right now. 1 (lowest) to 10 (excellent)")
 user_input = input("Take a moment to check in. Rate your mood right now. 1 (lowest) to 10 (excellent)")
-low_mood = int(user_input)
+mood = int(user_input)
 #low_mood = <5
 #high_mood = >5
-if low_mood <= 5:
+if mood <= 5:
     print("Sorry to hear that")
-            
+else:
+    print("That's great. Start your journey")  
+print("SECOND FOREST DESCRIPTION - include firefly arival")          
+
+
+# Jo's example
+
+class ChatbotBase:
+    x = 54
+
+class GameInterface:
+    y = 66
+
+
+class GameOfHope(ChatbotBase, GameInterface):
+    z = 14
+
+
+
+
+class GameOfHope(ChatbotBase, GameInterface):
+    name: str
+    mood: str
+    x: int
+
+    def __init__(self, x):
+        self.x = x
+
+
+    def get_name(self):
+        pass
+
+    def get_mood(self):
+        pass
+
+    def game_play(self):
+        pass
+
+
+
+
+
+
+game_of_hope = GameOfHope(x=)
+
+
+
+
+
+
+
+
 
 
 
