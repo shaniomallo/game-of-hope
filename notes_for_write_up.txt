@@ -1,0 +1,6 @@
+Trying to fix my code as it keeps jumping to the waterfall description. I'm adding the .lower() function to check if its the user input that is causing it to skip the river block
+
+Finally after getting my llm to work im not teaking the the tokens so it will output a full story and not just a line of a story
+I'm add "Write 6–10 sentences and do not stop early. "
+"Finish the story with a clear ending."
+So to see if it will get it to stop cutting off 

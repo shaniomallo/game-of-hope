@@ -28,8 +28,8 @@ class InstructLLMChatbot(ChatbotBase):
         self.device = device
 
         # Hyperparameters for text generation
-        self.max_tokens = 100
-        self.temperature = 0.3
+        self.max_tokens = 300
+        self.temperature = 0.5
         self.top_p = 0.99
         self.min_p = 0.1
 
@@ -85,7 +85,7 @@ class InstructLLMChatbot(ChatbotBase):
         input_token_len = input_tokens.shape[-1]
         
         # Generate, decode, clean and return output
-        output = self.model.generate(input_tokens, max_new_tokens=self.max_tokens, temperature=self.temperature, top_p=self.top_p, min_p=self.min_p, do_sample=True)
+        output = self.model.generate(input_tokens, max_new_tokens=self.max_tokens, temperature=self.temperature, top_p=self.top_p, min_p=self.min_p, do_sample=True, eos_token_id=None)
         out_str = self.tokenizer.decode(output[0][input_token_len:])
         out_str = re.sub(r'(<\|im_start\|>assistant\n)|(<\|im_end\|>)','',out_str)
         return out_str
