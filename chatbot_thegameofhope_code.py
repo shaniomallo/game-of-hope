@@ -3,6 +3,7 @@ from chatbot_base import ChatbotBase
 from generative_ai_instruct import InstructLLMChatbot
 import time
 import sys
+from standard_llm import StandardLLM
 
 class TheGameofHope(ChatbotBase):
     def __init__(self, name="Chatbot"):
@@ -10,6 +11,8 @@ class TheGameofHope(ChatbotBase):
         self.user_name = "unknown"
         self.mood = "unknown"
         self.llmbot = InstructLLMChatbot() #if you want your own variable of type InstructLLMChatbot
+        self.sllm = StandardLLM()
+
     
     def type_text(self, text, speed=0.03):
         for i in text:
@@ -37,7 +40,7 @@ class TheGameofHope(ChatbotBase):
             else:
                 print("Okay, you are not doing so bad. Take the journey to make it even better")
                 time.sleep(2)  
-            self.type_text("The forest is dark and quiet, lit only by the soft glow of the firefly drifting ahead of you. Moonlight barely reaches the forest floor, turning the trees into tall silver shadows. Up ahead, the firefly hovers, waiting. But to your right, a narrow path curves deeper into the woods.")  
+            self.type_text("The forest is dark and quiet, lit only by the soft glow of a firefly drifting ahead of you. Moonlight barely reaches the forest floor, turning the trees into tall silver shadows. Up ahead, the firefly hovers, waiting. But to your right, a narrow path curves deeper into the woods.")  
 
         else:
             print("Do you follow the firefly, or take the forest path?") 
@@ -60,13 +63,14 @@ class TheGameofHope(ChatbotBase):
 
 
             else:
-                self.type_text("You decide to leave the firefly and take the forest path on your own. As soon as you step forward, the ground beneath you glows softly. Smooth stone slabs shimmer into existence, one by one, forming a gentle glowing walkway that guides your steps. Soon, the distant sound of rushing water grows clearer, not booming or frightening, but soothing — like a lullaby carried on the night breeze. The path opens into a serene clearing where a moonlit waterfall cascades into a clear pool, mist drifting like silver dust. Beside the water sits a small wooden sign, and near it, a gentle turtle watches you with quiet, welcoming eyes. Peaceful, patient, and happy you’ve arrived.")
+                self.type_text("You decide to leave the firefly and take the forest path on your own. As soon as you step forward, the ground beneath you glows softly. Smooth stone slabs shimmer into existence, one by one, forming a gentle glowing walkway that guides your steps. Soon, the distant sound of rushing water grows clearer, not booming or frightening, but soothings like a lullaby carried on the night breeze. The path opens into a serene clearing where a moonlit waterfall cascades into a clear pool, mist drifting like silver dust. Beside the water sits a small wooden sign, and near it, a gentle turtle watches you with quiet, welcoming eyes. Peaceful, patient, and happy you’ve arrived.")
                 time.sleep(2)
                 print("Talk to Turtle or Read the sign")
                 user_input = input().lower()
                 user_input = str(user_input)
                 if "turtle" in user_input:
-                    print("Still need to code this part of the story")
+                    print("The turtle slowly turns his head towards you. He blinks slow, kind eyes at you warm, steady, and full of quiet wisdom as if he’s been expecting you all along.")
+                    self.talkToTurtle()
                 else:
                     self.readSign()
 
@@ -74,7 +78,7 @@ class TheGameofHope(ChatbotBase):
         
     def talkToOtter(self):
         print("Oh wow a visitor! It's so nice to see you here. What brings you to my part of the forest?")
-        time.sleep(4)
+        time.sleep(5)
         self.type_text("The firefly floats beside you and replies")
         print(f"This is {self.user_name}. We'er on a journey today to improve {self.user_name}'s mood.")
         time.sleep(3)
@@ -84,7 +88,7 @@ class TheGameofHope(ChatbotBase):
             "role": "system",
             "content": 
             "You are a warm, friendly otter who speaks kindly and gently. Your task right now is to tell a short, complete, uplifting storythat makes the user feel hopeful and comforted. Keep it concise and magical. The story must have an ending before the tokens run out"
-            "Write 6–10 sentences and do not stop early. "
+            "Write 6 to 10 sentences and do not stop early. "
             "Finish the story with a clear ending."
         }
         prompt = "tell the uplifting story with a complete uplifiting ending in 6-8 sentances."
@@ -92,11 +96,28 @@ class TheGameofHope(ChatbotBase):
         self.type_text(bot_reply)
     
 
-      
+    def talkToTurtle(self):
+        self.type_text("The turtle speaks softly but firmly...")
+        time.sleep(2)
+        prompt = "the key to happiness is as follows"
 
-    def readSign(self):
-        print("You are now reading the sign")
-    
+        turtle_reply = self.sllm.generate_response(prompt)
+        self.type_text(turtle_reply)
+
+    def readSign(self): 
+        quotes = [
+            "Since you get more joy out of giving joy to others, you should put a good deal of thought into the happiness that you are able to give. —Eleanor Roosevelt",
+            "Never give up on a dream just because of the time it will take to accomplish it. The time will pass anyway. ―Earl Nightingale",
+            "You alone are enough. You have nothing to prove to anybody. - Maya Angelou",
+            "Whenever you find yourself doubting how far you can go, just remember how far you have come. ―Unknown",
+            "It is worth remembering that the time of greatest gain in terms of wisdom and inner strength is often that of greatest difficulty. – Dalai Lama",
+            "It is those who get lost, who find the new ways. – Nils Kjaer",
+            "Good decisions come from experience. Experience comes from making bad decisions. – Mark Twain",
+            "There is no such thing as a hopeless situation. Every single circumstance of your life can change. – Ritu Ghatourey"
+        ]
+ 
+        sign_quote = random.choice(quotes)
+        print(sign_quote) 
 
 
 if __name__ == "__main__":
@@ -105,4 +126,4 @@ if __name__ == "__main__":
     
 
     while memory.conversation_is_active:
-        memory.respond()
+        memory.respond() 
