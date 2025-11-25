@@ -57,12 +57,22 @@ class TheGameofHope(ChatbotBase):
                     self.type_text("A small ripple breaks the surface of the lake, followed by a tiny, curious otter popping his head out of the water. His fur glistens like damp velvet, and bright amber eyes blink up at you with gentle excitement. He looks soft, round-cheeked, and undeniably adorable. The kind of creature who seems to smile even when he isn’t trying. With a little plip of water running down his whiskers, he tilts his head, radiating kindness and a shy, playful energy, as if he’s been waiting for someone exactly like you to talk to.") 
                     self.talkToOtter()
                 else:
+                    self.type_text("You dust off the sign to reveal bold letters that looks as if they were written just for you")
                     self.readSign()
-                #no matter whether they talk to the otter or read the sign, they're now both here:
+                    self.dawn_arrival()
+                    self.dawn_endOfGame()
+                    self.type_text("The words on the sign slowly fade away. The message was delevered to it's intended recipient. From waht you can see of the sky it has become lighter. the night will soon become day. Would you like to stay and talk to the Otter or continue through the forest and see where the forest leads you?")
+                    user_input = input().lower()
+                    if user_input.lower() == "otter":
+                        self.type_text("A small ripple breaks the surface of the lake, followed by a tiny, curious otter popping his head out of the water. His fur glistens like damp velvet, and bright amber eyes blink up at you with gentle excitement. He looks soft, round-cheeked, and undeniably adorable. The kind of creature who seems to smile even when he isn’t trying. With a little plip of water running down his whiskers, he tilts his head, radiating kindness and a shy, playful energy, as if he’s been waiting for someone exactly like you to talk to.") 
+                        self.talkToOtter()
+                        
+                    else:
+                        self.dawn_arrival()
+                        self.dawn_endOfGame()
 
 
-
-            else:
+            elif user_input.lower() == "path":
                 self.type_text("You decide to leave the firefly and take the forest path on your own. As soon as you step forward, the ground beneath you glows softly. Smooth stone slabs shimmer into existence, one by one, forming a gentle glowing walkway that guides your steps. Soon, the distant sound of rushing water grows clearer, not booming or frightening, but soothings like a lullaby carried on the night breeze. The path opens into a serene clearing where a moonlit waterfall cascades into a clear pool, mist drifting like silver dust. Beside the water sits a small wooden sign, and near it, a gentle turtle watches you with quiet, welcoming eyes. Peaceful, patient, and happy you’ve arrived.")
                 time.sleep(2)
                 print("Talk to Turtle or Read the sign")
@@ -71,8 +81,14 @@ class TheGameofHope(ChatbotBase):
                 if "turtle" in user_input:
                     print("The turtle slowly turns his head towards you. He blinks slow, kind eyes at you warm, steady, and full of quiet wisdom as if he’s been expecting you all along.")
                     self.talkToTurtle()
+                    
                 else:
+                    self.type_text("You dust off the sign to reveal bold letters that looks as if they were written just for you")
                     self.readSign()
+                    self.dawn_arrival()
+                    self.dawn_endOfGame()
+
+    
 
             self.conversation_is_active = False   
         
@@ -91,18 +107,27 @@ class TheGameofHope(ChatbotBase):
             "Write 6 to 10 sentences and do not stop early. "
             "Finish the story with a clear ending."
         }
-        prompt = "tell the uplifting story with a complete uplifiting ending in 6-8 sentances."
+        prompt = "tell the uplifting story with a complete uplifiting ending in maximum 8 sentances."
         bot_reply = self.llmbot.respond_with_LLM(prompt)
         self.type_text(bot_reply)
-    
+        print()
+        
+        print("I've realised the story is quite long and unfortunatley I have to go. But I think the rest of the story is for you to decide. Good luck on the rest of your journey.")
+        time.sleep(20)
+        self.type_text("The otter dives back into the water and disappears below ther surface leaving you with the quiet forest and the subtle buzz sound of the firefly. You ponder over the possible endings of his tale until the you notice the firefly has already set off and it's glow is bouncing through the trees. You follow along. At least the walk will give you a moment to think.")
+        self.dawn_arrival()
+        self.dawn_endOfGame()
 
     def talkToTurtle(self):
-        self.type_text("The turtle speaks softly but firmly...")
+        self.type_text("The turtle speaks softly but directly...")
         time.sleep(2)
         prompt = "the key to happiness is as follows"
 
         turtle_reply = self.sllm.generate_response(prompt)
         self.type_text(turtle_reply)
+        self.type_text("The turle slowly turns towards the waterfall. His words seem to linger in the air. Between the trees the sky looks a tint of purple. Suddenly new stone slabs light a new path through the forest. It's time to leave the waterfall behind.")
+        self.dawn_arrival()
+        self.dawn_endOfGame()
 
     def readSign(self): 
         quotes = [
@@ -118,6 +143,23 @@ class TheGameofHope(ChatbotBase):
  
         sign_quote = random.choice(quotes)
         print(sign_quote) 
+    
+    def dawn_arrival(self):
+        self.type_text("The forest gradually grows lighter as you walk, the shadows softening around you. The darkness of the forest slowly melts into a pale, glowing horizon. A cool breeze sweeps past you, carrying the faint scent of morning dew. Ahead, the path opens into a wide clearing where the first light of dawn spills across the sky in soft pinks, purples and golds. As you step out of the forest, the sunrise greets you like a warm embrace.")
+    
+    def dawn_endOfGame(self):
+        
+        self.type_text("You pause at the edge of the clearing, letting the sunrise wash over you. The wisdom of the forest lingers in your chest. And as the sun rises fully, you carry that feeling forward. A reminder that even in the darkest places, there is always a path that leads back to the light. Take a moment to rate your mood 1 - 10")
+        new_mood = input().lower()
+
+        if new_mood < self.mood:
+            self.type_text("Not every sunrise resets the heart. But you still made it through the night, and that matters more than you think. Come back and take the journey any time. There's always a new path waiting for you")
+        elif new_mood == self.mood:
+            self.type_text("Even with your mood unchanged, the sunrise wraps around you like a soft promise that tomorrow holds room for something new. Come back and take the journey any time. There's always a new path waiting for you.")
+        
+        elif new_mood > self.mood:
+            self.type_text("You’re leaving the forest a little lighter than you entered and that’s something truly special. The sunrise seems to glow a little brighter, as if celebrating the warmth you’ve rediscovered. Come back and take the journey any time. The forest will always welcome you.")
+
 
 
 if __name__ == "__main__":
