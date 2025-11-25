@@ -12,7 +12,7 @@ class StandardLLM:
         self.device = device
 
         # Generation settings
-        self.max_tokens = 100
+        self.max_tokens = 50
         self.temperature = 0.5
         self.top_p = 0.99
         self.min_p = 0.2

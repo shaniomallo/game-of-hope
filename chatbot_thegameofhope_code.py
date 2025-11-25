@@ -34,13 +34,15 @@ class TheGameofHope(ChatbotBase):
             time.sleep(1.5)
             print("Take a moment to check in. Rate your mood right now. 1 (lowest) to 10 (excellent)")
             user_input = int(input())
-            self.mood = user_input
+            self.mood = int(user_input)
             if self.mood <= 5:
                 print("Sorry to hear your mood is low. Take the journey to see if it changes")
+                time.sleep(3)
             else:
                 print("Okay, you are not doing so bad. Take the journey to make it even better")
                 time.sleep(2)  
-            self.type_text("The forest is dark and quiet, lit only by the soft glow of a firefly drifting ahead of you. Moonlight barely reaches the forest floor, turning the trees into tall silver shadows. Up ahead, the firefly hovers, waiting. But to your right, a narrow path curves deeper into the woods.")  
+            self.type_text("The forest is dark and quiet, lit only by the soft glow of a firefly drifting ahead of you. Moonlight barely reaches the forest floor, turning the trees into tall silver shadows. Up ahead, the firefly hovers, waiting. But to your right, a narrow path curves deeper into the woods.")
+            time.sleep(3)  
 
         else:
             print("Do you follow the firefly, or take the forest path?") 
@@ -79,7 +81,7 @@ class TheGameofHope(ChatbotBase):
                 user_input = input().lower()
                 user_input = str(user_input)
                 if "turtle" in user_input:
-                    print("The turtle slowly turns his head towards you. He blinks slow, kind eyes at you warm, steady, and full of quiet wisdom as if he’s been expecting you all along.")
+                    print("Near the base of the waterfall a turtle rests on a rock. The turtle slowly turns his head towards you. He blinks slow, kind eyes at you warm, steady, and full of quiet wisdom as if he’s been expecting you all along.")
                     self.talkToTurtle()
                     
                 else:
@@ -94,11 +96,11 @@ class TheGameofHope(ChatbotBase):
         
     def talkToOtter(self):
         print("Oh wow a visitor! It's so nice to see you here. What brings you to my part of the forest?")
-        time.sleep(5)
+        time.sleep(10)
         self.type_text("The firefly floats beside you and replies")
         print(f"This is {self.user_name}. We'er on a journey today to improve {self.user_name}'s mood.")
         time.sleep(3)
-        print("You've come to the right place. Someone came by here not too long ago and told me story that lifted my mood. I'd like to share it with you.")
+        print("You've come to the right place. I'd like to share my thoughts with you.")
 
         self.llmbot.system_prompt = {
             "role": "system",
@@ -112,22 +114,39 @@ class TheGameofHope(ChatbotBase):
         self.type_text(bot_reply)
         print()
         
-        print("I've realised the story is quite long and unfortunatley I have to go. But I think the rest of the story is for you to decide. Good luck on the rest of your journey.")
+        print("I realise I've been talking quite a while and unfortunatley I have to go. But I think the rest of the story is for you to decide. Good luck on the rest of your journey.")
         time.sleep(20)
-        self.type_text("The otter dives back into the water and disappears below ther surface leaving you with the quiet forest and the subtle buzz sound of the firefly. You ponder over the possible endings of his tale until the you notice the firefly has already set off and it's glow is bouncing through the trees. You follow along. At least the walk will give you a moment to think.")
-        self.dawn_arrival()
-        self.dawn_endOfGame()
+        self.type_text("The otter dives back into the water and disappears below the surface leaving you with the quiet forest and the subtle buzz sound of the firefly. You ponder over what else the otter would have said until the you notice the firefly has already set off and it's glow is bouncing through the trees. You follow along. At least the walk will give you a moment to think.")
+        self.type_text("Would you like to follow the firefly or read the sign?")
+        user_input = input().lower()
+        user_input = str(user_input)
+        if user_input == "sign" or "read the sign":
+            self.readSign()
+            time.sleep(6)
+            self.dawn_arrival()
+            self.dawn_endOfGame()
 
     def talkToTurtle(self):
-        self.type_text("The turtle speaks softly but directly...")
+
+        self.type_text("The turtle speaks slowly but always with meaning...")
         time.sleep(2)
         prompt = "the key to happiness is as follows"
 
         turtle_reply = self.sllm.generate_response(prompt)
         self.type_text(turtle_reply)
         self.type_text("The turle slowly turns towards the waterfall. His words seem to linger in the air. Between the trees the sky looks a tint of purple. Suddenly new stone slabs light a new path through the forest. It's time to leave the waterfall behind.")
-        self.dawn_arrival()
-        self.dawn_endOfGame()
+        print("Would you like to read the sign before you go?" )
+        user_input = input().lower()
+        user_input = str(user_input)
+        if user_input == "sign" or "read the sign":
+            self.readSign()
+            time.sleep(6)
+            self.dawn_arrival()
+            self.dawn_endOfGame()
+            
+        else:
+            self.dawn_arrival()
+            self.dawn_endOfGame()
 
     def readSign(self): 
         quotes = [
@@ -145,20 +164,25 @@ class TheGameofHope(ChatbotBase):
         print(sign_quote) 
     
     def dawn_arrival(self):
-        self.type_text("The forest gradually grows lighter as you walk, the shadows softening around you. The darkness of the forest slowly melts into a pale, glowing horizon. A cool breeze sweeps past you, carrying the faint scent of morning dew. Ahead, the path opens into a wide clearing where the first light of dawn spills across the sky in soft pinks, purples and golds. As you step out of the forest, the sunrise greets you like a warm embrace.")
+        self.type_text("You continue walking. It's nice to move and feel the air. The forest gradually grows lighter as you walk, the shadows softening around you. The darkness of the forest slowly melts into a pale, glowing horizon. A cool breeze sweeps past you, carrying the faint scent of morning dew. Ahead, the path opens into a wide clearing where the first light of dawn spills across the sky in soft pinks, purples and golds. As you step out of the forest, the sunrise greets you like a warm embrace.")
     
     def dawn_endOfGame(self):
         
         self.type_text("You pause at the edge of the clearing, letting the sunrise wash over you. The wisdom of the forest lingers in your chest. And as the sun rises fully, you carry that feeling forward. A reminder that even in the darkest places, there is always a path that leads back to the light. Take a moment to rate your mood 1 - 10")
-        new_mood = input().lower()
+        time.sleep(8)
+        
+        
+        new_mood = int(input())
 
         if new_mood < self.mood:
             self.type_text("Not every sunrise resets the heart. But you still made it through the night, and that matters more than you think. Come back and take the journey any time. There's always a new path waiting for you")
+            time.sleep(2)
         elif new_mood == self.mood:
             self.type_text("Even with your mood unchanged, the sunrise wraps around you like a soft promise that tomorrow holds room for something new. Come back and take the journey any time. There's always a new path waiting for you.")
-        
+            time.sleep(2)
         elif new_mood > self.mood:
             self.type_text("You’re leaving the forest a little lighter than you entered and that’s something truly special. The sunrise seems to glow a little brighter, as if celebrating the warmth you’ve rediscovered. Come back and take the journey any time. The forest will always welcome you.")
+            time.sleep(2)
 
 
 
