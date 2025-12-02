@@ -29,14 +29,14 @@ class InstructLLMChatbot(ChatbotBase):
 
         # Hyperparameters for text generation
         self.max_tokens = 300
-        self.temperature = 0.5
+        self.temperature = 0.4
         self.top_p = 0.99
-        self.min_p = 0.1
+        self.min_p = 0.2
 
         # System prompt for Instruct-LLM
         self.system_prompt = {
             "role": "system", 
-            "content": "You are a friendly chatbot that answers questions in single sentences.",
+            "content": "You are a friendly mythical creature telling a short story.",
             }
 
         # Checkpoint for our LLM
@@ -90,6 +90,7 @@ class InstructLLMChatbot(ChatbotBase):
         out_str = re.sub(r'(<\|im_start\|>assistant\n)|(<\|im_end\|>)','',out_str)
         return out_str
 
+
     # Generate response for the user 
     def generate_response(self, processed_input):
         # Use ^ and $ to match the start and end of the string
@@ -100,6 +101,7 @@ class InstructLLMChatbot(ChatbotBase):
             return self.farewell()
         else:
             return self.respond_with_LLM(processed_input)
+    
 
 
 if __name__ == "__main__":

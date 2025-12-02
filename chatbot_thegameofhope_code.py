@@ -10,7 +10,7 @@ class TheGameofHope(ChatbotBase):
         ChatbotBase.__init__(self,name)
         self.user_name = "unknown"
         self.mood = "unknown"
-        self.llmbot = InstructLLMChatbot() #if you want your own variable of type InstructLLMChatbot
+        self.llmbot = InstructLLMChatbot() 
         self.sllm = StandardLLM()
 
     
@@ -21,10 +21,12 @@ class TheGameofHope(ChatbotBase):
             time.sleep(speed)
         print()
 
-    # Example of main interaction loop 
+    
     def respond(self):
         if self.user_name == "unknown":
-            print("Enter your name to start the game  ")
+            print("The Game of Hope is here to help uplift your mood and was created for entertainment and wellbeing support only. It is not a replacement for professional help or mental health advice. If you are in crisis please seek human professional support")
+            time.sleep(3)
+            self.type_text("Enter your name to start the game  ")
             user_input = input()
             self.user_name = user_input
             print(f"Hello {user_input}. Welcome to The Game of Hope.") 
@@ -50,13 +52,13 @@ class TheGameofHope(ChatbotBase):
             
             user_input = input().lower()
             
-            if user_input.lower() == "firefly":
+            if user_input.lower() in ("firefly", "follow firefly", "follow the firefly"):
                 self.type_text("You follow the firefly deeper into the forest, its warm glow drifting ahead like a tiny lantern. Gradually, the woods open into a quiet clearing where moonlight spills across the ground, soft and silver. A gentle river winds through the space, its surface shimmering between the trunks as it moves quietly over smooth stones. The air feels cool and peaceful here, the kind of quiet that makes you breathe a little easier.")
                 time.sleep(2)
                 print("Talk to Otter or Read the sign. Choose 'otter' or sign'")
                 user_input = input().lower()
                 user_input = str(user_input)
-                if "otter" or "talk to otter" in user_input:
+                if user_input in ("otter", "talk to otter"):
                     self.type_text("A small ripple breaks the surface of the lake, followed by a tiny, curious otter popping his head out of the water. His fur glistens like damp velvet, and bright amber eyes blink up at you with gentle excitement. He looks soft, round-cheeked, and undeniably adorable. The kind of creature who seems to smile even when he isn’t trying. With a little plip of water running down his whiskers, he tilts his head, radiating kindness and a shy, playful energy, as if he’s been waiting for someone exactly like you to talk to.") 
                     self.talkToOtter()
                 else:
@@ -64,10 +66,11 @@ class TheGameofHope(ChatbotBase):
                     self.readSign()
                     self.dawn_arrival()
                     self.dawn_endOfGame()
-                    self.type_text("The words on the sign slowly fade away. The message was delevered to it's intended recipient. From waht you can see of the sky it has become lighter. the night will soon become day. Would you like to stay and talk to the Otter or continue through the forest and see where the forest leads you?")
+                    self.type_text("The words on the sign slowly fade away. The message was delivered to it's intended recipient. From what you can see of the sky it has become lighter. the night will soon become day. Would you like to stay and talk to the Otter or continue through the forest and see where the forest leads you?")
                     user_input = input().lower()
                     if user_input.lower() == "otter":
                         self.type_text("A small ripple breaks the surface of the lake, followed by a tiny, curious otter popping his head out of the water. His fur glistens like damp velvet, and bright amber eyes blink up at you with gentle excitement. He looks soft, round-cheeked, and undeniably adorable. The kind of creature who seems to smile even when he isn’t trying. With a little plip of water running down his whiskers, he tilts his head, radiating kindness and a shy, playful energy, as if he’s been waiting for someone exactly like you to talk to.") 
+                        time.sleep(3)
                         self.talkToOtter()
                         
                     else:
@@ -76,7 +79,7 @@ class TheGameofHope(ChatbotBase):
 
 
             elif user_input.lower() in ("path", "forest path"):
-                self.type_text("You decide to leave the firefly and take the forest path on your own. As soon as you step forward, the ground beneath you glows softly. Smooth stone slabs shimmer into existence, one by one, forming a gentle glowing walkway that guides your steps. Soon, the distant sound of rushing water grows clearer, not booming or frightening, but soothings like a lullaby carried on the night breeze. The path opens into a serene clearing where a moonlit waterfall cascades into a clear pool, mist drifting like silver dust. Beside the water sits a small wooden sign, and near it, a gentle turtle watches you with quiet, welcoming eyes. Peaceful, patient, and happy you’ve arrived.")
+                self.type_text("You decide to leave the firefly and take the forest path on your own. As soon as you step forward, the ground beneath you glows softly. Smooth stone slabs shimmer into existence, one by one, forming a gentle glowing walkway that guides your steps. Soon, the distant sound of rushing water grows clearer, not booming or frightening, but soothing like a lullaby carried on the night breeze. The path opens into a serene clearing where a moonlit waterfall cascades into a clear pool, mist drifting like silver dust. Beside the water sits a small wooden sign, and near it, a gentle turtle watches you with quiet, welcoming eyes. Peaceful, patient, and happy you’ve arrived.")
                 time.sleep(2)
                 print("Talk to Turtle or Read the sign. Choose 'turtle' or 'sign'")
                 user_input = input().lower()
@@ -99,29 +102,31 @@ class TheGameofHope(ChatbotBase):
         print("Oh wow a visitor! It's so nice to see you here. What brings you to my part of the forest?")
         time.sleep(10)
         self.type_text("The firefly floats beside you and replies")
-        print(f"This is {self.user_name}. We'er on a journey today to improve {self.user_name}'s mood.")
+        time.sleep(2)
+        print(f"This is {self.user_name}. We're on a journey today to improve {self.user_name}'s mood.")
         time.sleep(3)
-        print("You've come to the right place. I'd like to share my thoughts with you.")
+        print("You've come to the right place. I'd like to share a story with you.")
 
         self.llmbot.system_prompt = {
             "role": "system",
             "content": 
-            "You are a warm, friendly otter who speaks kindly and gently. Your task right now is to tell a short, complete, uplifting storythat makes the user feel hopeful and comforted. Keep it concise and magical. The story must have an ending before the tokens run out"
+            "You are a warm, friendly otter who speaks kindly and gently. Tell a short, complete, uplifting story that makes the user feel hopeful and comforted. Keep it concise and magical. The story must have an ending before the tokens run out"
             "Write 6 to 10 sentences and do not stop early. "
             "Finish the story with a clear ending."
+            "Don't use the name character names"
         }
-        prompt = "tell the uplifting story with a complete uplifiting ending in maximum 8 sentances."
+        prompt = "tell the uplifting story with a complete uplifting ending in maximum 8 sentences."
         bot_reply = self.llmbot.respond_with_LLM(prompt)
         self.type_text(bot_reply)
         print()
         
-        print("I realise I've been talking quite a while and unfortunatley I have to go. But I think the rest of the story is for you to decide. Good luck on the rest of your journey.")
+        print("I realise I've been talking quite a while and unfortunately I have to go. But I think the rest of the story is for you to decide. Good luck on the rest of your journey.")
         time.sleep(20)
         self.type_text("The otter dives back into the water and disappears below the surface leaving you with the quiet forest and the subtle buzz sound of the firefly. You ponder over what else the otter would have said until the you notice the firefly has already set off and it's glow is bouncing through the trees. You follow along. At least the walk will give you a moment to think.")
         self.type_text("Would you like to read the sign before you go Y/N?")
         user_input = input().lower()
         user_input = str(user_input)
-        if user_input == "y" or "yes" or "sign" or "read the sign":
+        if user_input in ("y", "yes", "sign", "read the sign"):
             self.readSign()
             time.sleep(6)
             self.dawn_arrival()
