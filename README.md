@@ -1,14 +1,14 @@
-🌿 The Game of Hope
+# 🌿 The Game of Hope
 
 A text-based adventure game designed to lift your mood, one choice at a time.
 
 
-About
+## About
 The Game of Hope is an interactive story set in a mythical, magical forest. You begin deep in the woods at night and journey through a world of glowing rivers, ancient creatures, and hidden clearings: arriving at dawn, a little lighter than when you started.
 The game was born from a question: can technology support mental wellbeing without being invasive? Rather than replacing human connection or storing sensitive data, The Game of Hope offers something simpler: a quiet, imaginative space to breathe, reflect, and feel a little more hopeful.
 This project sits at the intersection of storytelling, AI, and emotional design.
 
-How It Works
+## How It Works
 
 You enter your name and your current mood at the start
 The story unfolds through choices: there are two main branches, each introducing you to a different character
@@ -17,11 +17,11 @@ At the end, the game compares your mood from the start to how you feel now
 
 No data is stored. No account needed. Just you and the forest.
 
-Characters
+## Characters
 🦦 The Otter: warm, playful, and full of stories. Uses SmolLM Instruct to generate original uplifting tales tailored to the moment.
 🐢 The Turtle: ancient, calm, and wise. Uses SmolLM Standard to offer short, grounded reflections.
 
-Tech Stack
+## Tech Stack
 
 Python: core game logic and narrative engine
 HuggingFace SmolLM (Instruct + Standard): local LLM for generative character dialogue
@@ -29,7 +29,7 @@ time + sys modules: for typewriter-style text pacing
 random module: for randomised inspirational quotes throughout the story
 
 
-Running the Game
+## Running the Game
 
 Clone the repo:
 
@@ -47,12 +47,12 @@ bash   python run_chatbot.py
 Note: The LLM runs locally so the first run may take a moment to load the model. No API keys required.
 
 
-Background & Motivation
+## Background & Motivation
 This project was inspired by research into the use of LLMs in behavioural healthcare. While the potential is real, so are the risks: hallucinations, data privacy concerns, and the removal of human connection from spaces where people are most vulnerable.
 The Game of Hope is my response to that: a voluntary, low-stakes, imaginative experience that supports mood without claiming to be therapy. No sensitive information is collected, there are no serious consequences to unexpected inputs, and the player is always in control.
 It's not a mental health tool. It's a story. And sometimes, that's exactly what you need.
 
-⚠️ Disclaimer: This game is intended for entertainment and light wellbeing support only. It is not a replacement for professional mental health support. If you are in crisis, please reach out to a qualified professional or crisis service.
+### ⚠️ Disclaimer: This game is intended for entertainment and light wellbeing support only. It is not a replacement for professional mental health support. If you are in crisis, please reach out to a qualified professional or crisis service.
 
 
 Made by
