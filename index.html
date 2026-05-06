@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Game of Hope</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1a12;
+      --bg-card: #131f16;
+      --bg-deep: #0a1209;
+      --green-bright: #7aab6a;
+      --green-mid: #3d6e42;
+      --green-dark: #2a3d2e;
+      --green-deeper: #1e2e20;
+      --text-primary: #f0e8d0;
+      --text-muted: #9eb89a;
+      --text-dim: #7a9870;
+      --text-code: #a8d48a;
+      --border: #2a3d2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(13, 26, 18, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Crimson Pro', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .nav-logo em { font-style: italic; color: #a8d48a; }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .hero-fireflies {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .ff {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #b8e0a0;
+      opacity: 0;
+      animation: ffblink 4s infinite;
+    }
+
+    @keyframes ffblink {
+      0%, 100% { opacity: 0; transform: scale(1); }
+      50% { opacity: 0.75; transform: scale(1.4); }
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeup 0.8s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 300;
+      color: var(--text-primary);
+      line-height: 1.05;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeup 0.8s 0.4s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: #a8d48a;
+    }
+
+    .hero-tagline {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 440px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeup 0.8s 0.6s forwards;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeup 0.8s 0.8s forwards;
+    }
+
+    @keyframes fadeup {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-primary {
+      background: var(--green-mid);
+      color: #d8f0c8;
+      border: none;
+      padding: 13px 30px;
+      border-radius: 40px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: #4a8550; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 0.5px solid #3a5440;
+      padding: 13px 30px;
+      border-radius: 40px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+
+    .btn-ghost:hover { border-color: var(--green-bright); color: #c8e0b8; transform: translateY(-1px); }
+
+    /* SECTIONS */
+    section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      margin-bottom: 0.8rem;
+    }
+
+    section h2 {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 300;
+      color: var(--text-primary);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    section p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 0;
+    }
+
+    /* CHARACTER CARDS */
+    .chars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 2rem;
+    }
+
+    .char-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+
+    .char-card:hover { border-color: #3d6e42; }
+
+    .char-icon { font-size: 30px; margin-bottom: 0.8rem; }
+
+    .char-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: #d8ecc8;
+      margin-bottom: 0.4rem;
+    }
+
+    .char-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    /* STEPS */
+    .steps { margin-top: 2rem; }
+
+    .step {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      padding: 1.2rem 0;
+      border-bottom: 0.5px solid var(--green-deeper);
+    }
+
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #1e3220;
+      border: 0.5px solid var(--green-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--green-bright);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #d8ecc8;
+      margin-bottom: 3px;
+    }
+
+    .step span {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* CODE BLOCK */
+    .code-block {
+      background: var(--bg-deep);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--text-code);
+      line-height: 2;
+    }
+
+    .code-block .dim { color: #4a6e44; }
+
+    /* PROFILE */
+    .profile {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #1e3220;
+      border: 0.5px solid var(--green-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Crimson Pro', serif;
+      font-size: 20px;
+      color: var(--text-code);
+      flex-shrink: 0;
+    }
+
+    .profile-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: #d8ecc8;
+      margin-bottom: 4px;
+    }
+
+    .profile-bio {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+
+    .profile-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      color: var(--green-bright);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .profile-link:hover { color: #a8d48a; }
+
+    /* DISCLAIMER */
+    .disclaimer {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.4rem;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-top: 2rem;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      font-size: 12px;
+      color: #4a6e44;
+      border-top: 0.5px solid var(--green-deeper);
+      letter-spacing: 0.04em;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .chars { grid-template-columns: 1fr; }
+      .profile { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">The Game of <em>Hope</em></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#how">How to play</a></li>
+      <li><a href="#maker">The maker</a></li>
+      <li><a href="https://github.com/shaniomallo/game-of-hope" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-fireflies" id="ff"></div>
+    <p class="hero-eyebrow">A text-based adventure</p>
+    <h1 class="hero-title">The Game of <em>Hope</em></h1>
+    <p class="hero-tagline">A journey through a magical forest designed to lift your mood, one choice at a time.</p>
+    <div class="hero-btns">
+      <a href="#how" class="btn-primary">How to play</a>
+      <a href="#about" class="btn-ghost">Learn more</a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <section id="about">
+    <p class="section-label">About the game</p>
+    <h2>You begin deep in the forest, at night.</h2>
+    <p>The Game of Hope is an interactive story set in a mythical, magical world. You make choices, meet characters, and journey through the landscape until you reach a clearing at dawn. That journey is a metaphor for how you will feel by the end.</p>
+    <p>It was built on the belief that technology can support wellbeing without being invasive. No data is stored. No account needed. Just you and the forest.</p>
+
+    <div class="chars">
+      <div class="char-card">
+        <div class="char-icon">🦦</div>
+        <div class="char-name">The Otter</div>
+        <div class="char-desc">Warm, playful, and full of stories. Generates a unique uplifting tale each time you play.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon">🐢</div>
+        <div class="char-name">The Turtle</div>
+        <div class="char-desc">Ancient, calm, and wise. Offers short grounded reflections when you need them most.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="how">
+    <p class="section-label">Run it locally</p>
+    <h2>How to play</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <strong>Clone the repo</strong>
+          <span>Download the project to your machine</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <strong>Install dependencies</strong>
+          <span>Requires Python and HuggingFace Transformers</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <strong>Run the game</strong>
+          <span>The story begins in your terminal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <span class="dim"># clone</span><br>
+      git clone https://github.com/shaniomallo/game-of-hope.git<br>
+      cd game-of-hope<br><br>
+      <span class="dim"># install</span><br>
+      pip install transformers torch<br><br>
+      <span class="dim"># play</span><br>
+      python run_chatbot.py
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="maker">
+    <p class="section-label">The maker</p>
+    <h2>Made by Shani</h2>
+
+    <div class="profile">
+      <div class="avatar">S</div>
+      <div>
+        <div class="profile-name">Shani O'Mallo</div>
+        <div class="profile-bio">Creative technologist and filmmaker. MSc Applied Machine Learning for Creative Industries. Building at the intersection of storytelling and AI.</div>
+        <a class="profile-link" href="https://github.com/shaniomallo" target="_blank">
+          &#xe624; github.com/shaniomallo
+        </a>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      This game is intended for entertainment and light wellbeing support only. It is not a replacement for professional mental health support. If you are in crisis, please reach out to a qualified professional or crisis service.
+    </div>
+  </section>
+
+  <footer>
+    The Game of Hope &nbsp;·&nbsp; Shani O'Mallo &nbsp;·&nbsp; 2025
+  </footer>
+
+  <script>
+    const ff = document.getElementById('ff');
+    for (let i = 0; i < 28; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'ff';
+      dot.style.left = Math.random() * 100 + '%';
+      dot.style.top = Math.random() * 100 + '%';
+      dot.style.animationDelay = (Math.random() * 5) + 's';
+      dot.style.animationDuration = (3 + Math.random() * 4) + 's';
+      ff.appendChild(dot);
+    }
+  </script>
+
+</body>
+</html>
