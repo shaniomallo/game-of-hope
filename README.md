@@ -52,7 +52,7 @@ This project was inspired by research into the use of LLMs in behavioural health
 The Game of Hope is my response to that: a voluntary, low-stakes, imaginative experience that supports mood without claiming to be therapy. No sensitive information is collected, there are no serious consequences to unexpected inputs, and the player is always in control.
 It's not a mental health tool. It's a story. And sometimes, that's exactly what you need.
 
-### ⚠️ Disclaimer: This game is intended for entertainment and light wellbeing support only. It is not a replacement for professional mental health support. If you are in crisis, please reach out to a qualified professional or crisis service.
+**⚠️ Disclaimer:** This game is intended for entertainment and light wellbeing support only. It is not a replacement for professional mental health support. If you are in crisis, please reach out to a qualified professional or crisis service.
 
 
 Made by
